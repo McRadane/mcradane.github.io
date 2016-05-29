@@ -55,6 +55,7 @@ function generate() {
   }
   
   $("#options").addClass("hidden");
+  $("#instruction").addClass("hidden");
   $("#result").removeClass("hidden");
 
   return tickets;
