@@ -73,7 +73,7 @@ $("#tirage").click(function() {
   
   Shuffle(tickets);
   
-  $("#randomorg").val(tickets);
+  $("#randomorg").val(tickets.join("\n"));
   
   $("#winner").html("<b>Gagnant:</b> " + tickets[0]);
   
@@ -83,5 +83,7 @@ $("#tirage").click(function() {
 $("#generate").click(function() {
   var tickets = generate();
   
-  $("#randomorg").val(tickets);
+  
+  
+  $("#randomorg").val(tickets.join("\n"));
 });
