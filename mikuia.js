@@ -36,7 +36,7 @@ function generate() {
   var tickets_method = $("input[name=optionsMethode]:checked").val();
   
   for(var i in data) {
-    if(filter_method == "rang") {
+    if(filtre_method == "rang") {
     	if(data[i].rank <= limit) {
       	filter.push(data[i]);
       }
