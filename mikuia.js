@@ -77,7 +77,7 @@ $("#tirage").click(function() {
   
   $("#winner").html("<b>Gagnant:</b> " + tickets[0]);
   
-  $("#result").removeClass("hidden");
+  $("#winner").removeClass("hidden");
 });
 
 $("#generate").click(function() {
