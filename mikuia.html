@@ -67,8 +67,8 @@
         </div>
         <div class="panel panel-default" id="data">
           <div class="panel-body">
-            <textarea id="data" class="form-control" rows="10"></textarea>
-            <button type="button" class="btn btn-primary">Traitement</button>
+            <textarea id="rawdata" class="form-control" rows="10"></textarea>
+            <button id="parse" type="button" class="btn btn-primary">Traitement</button>
           </div>
         </div>
         <div class="panel panel-default hidden" id="options">
@@ -108,15 +108,17 @@
                 Un ticket par personne
               </label>
             </div>
-            <button type="button" class="btn btn-primary">Tirage</button>
-            <button type="button" class="btn btn-default">Random.org</button>
+            <button id="tirage" type="button" class="btn btn-primary">Tirage</button>
+            <button id="generate" type="button" class="btn btn-default">Random.org</button>
           </div>
         </div>
         
         <div class="panel panel-default hidden" id="result">
           <div class="panel-body">
-            <textarea id="randomorg" class="form-control hidden" rows="10"></textarea>
+            <h2>Résultat</h2>
             <div id="winner" class="alert alert-success hidden" role="alert"></div>
+            <textarea id="randomorg" class="form-control" rows="10"></textarea>
+            
           </div>
         </div>
       </div>
