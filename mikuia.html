@@ -56,59 +56,68 @@
       <div class="template">
         <h1>Mikuia Randomizer</h1>
         <div class="panel panel-default" id="instruction">
-          <ol>
-            <li>Sélectionner tout le classement Mikuia, et le coller dans la zone de texte plus bas</li>
-            <li>Appuyer sur le bouton "Traitement"</li>
-            <li>Configurer les options du tirage au sorts</li>
-            <li>Appuyer sur "Random.org" pour générer une liste compatible Random.org, ou sur "Tirage" pour faire directement le tirage au sorts</li>
-          </ol>
+          <div class="panel-body">
+            <ol>
+              <li>Sélectionner tout le classement Mikuia, et le coller dans la zone de texte plus bas</li>
+              <li>Appuyer sur le bouton "Traitement"</li>
+              <li>Configurer les options du tirage au sorts</li>
+              <li>Appuyer sur "Random.org" pour générer une liste compatible Random.org, ou sur "Tirage" pour faire directement le tirage au sorts</li>
+            </ol>
+          </div>
         </div>
         <div class="panel panel-default" id="data">
-          <textarea id="data" class="form-control" rows="10"></textarea>
-          <button type="button" class="btn btn-primary">Traitement</button>
+          <div class="panel-body">
+            <textarea id="data" class="form-control" rows="10"></textarea>
+            <button type="button" class="btn btn-primary">Traitement</button>
+          </div>
         </div>
         <div class="panel panel-default hidden" id="options">
-          <h2>Filtre</h2>
-          
-          <div class="radio">
-            <label>
-              <input type="radio" name="optionsFiltre" id="filtrePoints" value="points" checked>
-              Nombre de points
-            </label>
+          <div class="panel-body">
+            <h2>Filtre</h2>
+            
+            <div class="radio">
+              <label>
+                <input type="radio" name="optionsFiltre" id="filtrePoints" value="points" checked>
+                Nombre de points
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="optionsFiltre" id="filtreRang" value="rang">
+                Rang
+              </label>
+            </div>
+            
+            <div class="form-group">
+              <label for="limit">Nombre de points / rang minimum</label>
+              <input type="number" class="form-control" id="limit">
+            </div>
+            
+            <h2>Méthode</h2>
+            
+            <div class="radio">
+              <label>
+                <input type="radio" name="optionsMethode" id="filtreLessya" value="lessya" checked>
+                Nombre de tickets suivant le classement
+                <div class="alert alert-info" role="alert">Méthode Lessya: S'il y a 20 participants, le 1er recoit 20 tickets, le 2ème 19, etc etc</div>
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="optionsMethode" id="filtreFlat" value="flat">
+                Un ticket par personne
+              </label>
+            </div>
+            <button type="button" class="btn btn-primary">Tirage</button>
+            <button type="button" class="btn btn-default">Random.org</button>
           </div>
-          <div class="radio">
-            <label>
-              <input type="radio" name="optionsFiltre" id="filtreRang" value="rang">
-              Rang
-            </label>
-          </div>
-          
-          <div class="form-group">
-            <label for="limit">Nombre de points / rang minimum</label>
-            <input type="number" class="form-control" id="limit">
-          </div>
-          
-          <h2>Méthode</h2>
-          
-          <div class="radio">
-            <label>
-              <input type="radio" name="optionsMethode" id="filtreLessya" value="lessya" checked>
-              Nombre de tickets suivant le classement
-              <div class="alert alert-info" role="alert">Méthode Lessya: S'il y a 20 participants, le 1er recoit 20 tickets, le 2ème 19, etc etc</div>
-            </label>
-          </div>
-          <div class="radio">
-            <label>
-              <input type="radio" name="optionsMethode" id="filtreFlat" value="flat">
-              Un ticket par personne
-            </label>
-          </div>
-          <button type="button" class="btn btn-primary">Tirage</button>
-          <button type="button" class="btn btn-default">Random.org</button>
         </div>
+        
         <div class="panel panel-default hidden" id="result">
-          <textarea id="randomorg" class="form-control hidden" rows="10"></textarea>
-          <div id="winner" class="alert alert-success hidden" role="alert">...</div>
+          <div class="panel-body">
+            <textarea id="randomorg" class="form-control hidden" rows="10"></textarea>
+            <div id="winner" class="alert alert-success hidden" role="alert"></div>
+          </div>
         </div>
       </div>
 
@@ -120,6 +129,6 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-
+    <script src="mikuia.js"></script>
   </body>
 </html>
