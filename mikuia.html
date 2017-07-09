@@ -58,21 +58,33 @@
         <div class="panel panel-default" id="instruction">
           <div class="panel-body">
             <ol>
-              <li>Sélectionner tout le classement Mikuia, et le coller dans la zone de texte plus bas</li>
+              <li>Sélectionner tout le classement Mikuia ou CSV, et le coller dans la zone de texte plus bas</li>
               <li>Appuyer sur le bouton "Traitement"</li>
               <li>Configurer les options du tirage au sorts</li>
               <li>Appuyer sur "Random.org" pour générer une liste compatible Random.org, ou sur "Tirage" pour faire directement le tirage au sorts</li>
             </ol>
+			<div class="radio">
+			  <label>
+			    <input type="radio" name="optionsDatas" id="dataFromMikuia" value="mikuia" checked>
+			    Classement Mikuia
+			  </label>
+			</div>
+			<div class="radio">
+			  <label>
+			    <input type="radio" name="optionsDatas" id="dataFromCSV" value="csv">
+			    Liste CSV
+			  </label>
+			</div>            
           </div>
         </div>
         <div class="panel panel-default" id="data">
           <div class="panel-body">
             <textarea id="rawdata" class="form-control" rows="10"></textarea>
-            <button id="parse" type="button" class="btn btn-primary">Traitement</button>
+            <button id="parseMikuia" type="button" class="btn btn-primary buttonParse">Traitement</button>
             <div class="alert alert-warning" role="alert">Les données devraient ressembler à ça : 
               <pre>
                 
-              pseudo2
+              pseudo1
               200
               GiveSetTake
               
@@ -87,42 +99,59 @@
             </div>
           </div>
         </div>
+        <div class="panel panel-default hidden" id="csvdata">
+        	<div class="panel-body">
+				<textarea id="rawdata" class="form-control" rows="10"></textarea>
+            	<button id="parseCSV" type="button" class="btn btn-primary buttonParse">Traitement</button>
+	            <div class="alert alert-warning" role="alert">Les données devraient ressembler à ça : 
+	              <pre>
+Username,Subscribe Date,Paying
+pseudo1,2042-12-01 00:00:00 UTC,false
+pseudo2,2042-12-01 00:00:00 UTC,true
+pseudo3,2042-12-01 00:00:00 UTC,true
+	              </pre>
+	            </div>
+            </div>
+        </div>
         <div class="panel panel-default hidden" id="options">
           <div class="panel-body">
-            <h2>Filtre</h2>
-            
-            <div class="radio">
-              <label>
-                <input type="radio" name="optionsFiltre" id="filtrePoints" value="points" checked>
-                Nombre de points
-              </label>
+          	<div id="optionsFiltrePanel">
+	            <h2>Filtre</h2>
+	            
+	            <div class="radio">
+	              <label>
+	                <input type="radio" name="optionsFiltre" id="filtrePoints" value="points" checked>
+	                Nombre de points
+	              </label>
+	            </div>
+	            <div class="radio">
+	              <label>
+	                <input type="radio" name="optionsFiltre" id="filtreRang" value="rang">
+	                Rang
+	              </label>
+	            </div>
+	            
+	            <div class="form-group">
+	              <label for="limit">Nombre de points / rang minimum</label>
+	              <input type="number" class="form-control" id="limit">
+	            </div>
             </div>
-            <div class="radio">
-              <label>
-                <input type="radio" name="optionsFiltre" id="filtreRang" value="rang">
-                Rang
-              </label>
-            </div>
-            
-            <div class="form-group">
-              <label for="limit">Nombre de points / rang minimum</label>
-              <input type="number" class="form-control" id="limit">
-            </div>
-            
-            <h2>Méthode</h2>
-            
-            <div class="radio">
-              <label>
-                <input type="radio" name="optionsMethode" id="filtreLessya" value="lessya" checked>
-                Nombre de tickets suivant le classement
-                <div class="alert alert-info" role="alert">Méthode Lessya: S'il y a 20 participants, le 1er recoit 20 tickets, le 2ème 19, etc etc</div>
-              </label>
-            </div>
-            <div class="radio">
-              <label>
-                <input type="radio" name="optionsMethode" id="filtreFlat" value="flat">
-                Un ticket par personne
-              </label>
+            <div id="optionsMethodePanel">
+	            <h2>Méthode</h2>
+	            
+	            <div class="radio">
+	              <label>
+	                <input type="radio" name="optionsMethode" id="filtreLessya" value="lessya" checked>
+	                Nombre de tickets suivant le classement
+	                <div class="alert alert-info" role="alert">Méthode Lessya: S'il y a 20 participants, le 1er recoit 20 tickets, le 2ème 19, etc etc</div>
+	              </label>
+	            </div>
+	            <div class="radio">
+	              <label>
+	                <input type="radio" name="optionsMethode" id="filtreFlat" value="flat">
+	                Un ticket par personne
+	              </label>
+	            </div>
             </div>
             <button id="tirage" type="button" class="btn btn-primary">Tirage</button>
             <button id="generate" type="button" class="btn btn-default">Random.org</button>
