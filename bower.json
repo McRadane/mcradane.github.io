@@ -1,0 +1,18 @@
+{
+  "name": "mcradane.github.io",
+  "homepage": "https://github.com/McRadane/mcradane.github.io",
+  "authors": [
+    "Léo Maradan <3043485+Leomaradan@users.noreply.github.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
