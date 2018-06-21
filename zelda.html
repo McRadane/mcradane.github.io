@@ -47,6 +47,10 @@
 		.tab-content {
 			padding-top: 75px;
 		}
+
+		.currentLevel {
+			width: 40px;
+		}
 	</style>
 
 </head>
@@ -113,7 +117,7 @@
 									{{ trans(armor.name) }}
 								</td>
 								<td>
-									<input v-if="armor.current !== undefined" v-model.number="armor.current " type="number" min="0" max="4" />
+									<input v-if="armor.current !== undefined && armor.upgrades !== undefined" class="currentLevel" v-model.number="armor.current " type="number" min="0" max="4" />
 								</td>
 								<td class="hidden-xs">
 									<ul class="tag">
