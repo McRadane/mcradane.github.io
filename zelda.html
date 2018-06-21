@@ -1,213 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Zelda BotW Armor Upgrade</title>
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
-    <script src="https://unpkg.com/vue@2.2.5"></script>
-    <script type="text/javascript" src="zelda.json"></script>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<title>Zelda BotW Armor Upgrade</title>
 
-    <style type="text/css">
-    	.tag {
-    		display: flex;
-    	}
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
+	<script src="lib/jquery/dist/jquery.slim.min.js"></script>
+	<script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="lib/lodash/dist/lodash.min.js"></script>
+	<script src="lib/vue/dist/vue.min.js"></script>
+	<script type="text/javascript" src="zelda.js"></script>
 
-    	.tag > * {
-    		text-decoration: underline;
-    		list-style: none;
-    		padding: 2px;
-    		font-size: 1rem;
-    	}
-	    body {
-	      padding-top: 50px;
-	    }
-	    .template {
-	      padding: 40px 15px;
-	    }    	
-    </style>
+	<style type="text/css">
+		.tag {
+			display: flex;
+		}
 
-  </head>
-  <body >
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">McRadane</a>
-        </div>
-        <!-- <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </div>--><!--/.nav-collapse -->
-      </div>
-    </nav>
+		.tag>* {
+			text-decoration: underline;
+			list-style: none;
+			padding: 2px;
+			font-size: 1rem;
+		}
 
-    <div class="container">
+		body {
+			padding-top: 50px;
+		}
 
-      <div class="template">  
-	    <div id="armors">
+		.template {
+			padding: 40px 15px;
+		}
 
-			<button v-on:click="save()">save</button>
-			<button v-on:click="reset()">reset</button>
-			<select v-model="language">
-			  <option value="fr">Français</option>
-			  <option value="en">Anglais</option>
-			</select>	
+		.fixed-top {
+			position: fixed;
+			height: 100px;
+			background-color: white;
+			width: 100%;
+			top: 51px;			
+		}
 
-	    	<h2>Armors</h2>
-			<table class="table">
-			<tr>
-				<th>Name</th>
-				<th>Actual level</th>
-				<th>level 2</th>
-				<th>level 4</th>
-			</tr>
-			  <tr v-for="armor in armors">
-			    <td><input type="checkbox" id="checkbox" v-model="armor.active"> {{ trans(armor.name) }}</td>
-			    <td><input v-model.number="armor.current " type="number" min="0" max="4" /></td>
-			    <td>
-			    	<ul class="tag">
-			    		<li v-for="item in getSum(armor, 2)" >{{ trans(item.name) }} : {{ item.quantity }}</li>
-			    	</ul>
-			    </td>
-			    <td>
-			    	<ul class="tag">
-			    		<li v-for="item in getSum(armor, 4)">{{ trans(item.name) }} : {{ item.quantity }}</li>
-			    	</ul>
-			    </td>	    
-			  </tr>
-			</table>
+		.tab-content {
+			padding-top: 75px;
+		}
+	</style>
 
-			<h2>Materials for level 2</h2>
-			<ul>
-				<li v-for="material in getAllMaterial(2)">{{ trans(material.name) }} : {{ material.quantity }}</li>
-			</ul>
+</head>
 
-			<h2>Materials for level 4</h2>
-			<ul>
-				<li v-for="material in getAllMaterial(4)">{{ trans(material.name) }} : {{ material.quantity }}</li>
-			</ul>			
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				 aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">McRadane</a>
+			</div>
 		</div>
-      </div>
+	</nav>
 
-    </div><!-- /.container -->
-    <script type="text/javascript">
+	<div class="container">
 
-    	var save = localStorage.getItem("save");
-    	var data = {};
+		<div class="template">
+			<div id="armors">
 
-    	if(save !== null) {
-    		save = JSON.parse(save);
-    		data = _.map(initial, function(i) {
-    			var l = _.find(save, ['id', i.id]);
-    			if(l !== undefined) {
-	    			i.current = l.current;
-	    			i.active = l.active;
-	    		}
-    			return i;
-    		});
-    	} else {
-    		data = initial;
-    	}
+				<div class="fixed-top">
+					<button v-on:click="save()">save</button>
+					<button v-on:click="reset()">reset</button>
+					<select v-model="language">
+						<option value="fr">Français</option>
+						<option value="en">Anglais</option>
+					</select>
+	
+					<ul class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active">
+							<a href="#armorList" aria-controls="armorList" role="tab" data-toggle="tab">Armures</a>
+						</li>
+						<li role="presentation">
+							<a href="#materialList" aria-controls="materialList" role="tab" data-toggle="tab">Composants</a>
+						</li>
+					</ul>
+				</div>
 
-    	data = _.orderBy(data, 'id');
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane active" id="armorList">
+						<h2>Armures</h2>
+						<table class="table">
+							<tr>
+								<th><small>Possedé</small></th>
+								<th><small>A améliorer</small></th>
+								<th>Nom</th>
+								<th>Niveau actuel</th>
+								<th>Niveau 2</th>
+								<th>Niveau 4</th>
+							</tr>
+							<tr v-for="armor in armors">
+								<td>
+									<input type="checkbox" id="checkboxOwned" v-model="armor.owned">
+								</td>
+								<td>
+									<input v-if="armor.owned" type="checkbox" id="checkboxActive" v-model="armor.active">
+								</td>								
+								<td>
+									{{ trans(armor.name) }}
+								</td>
+								<td>
+									<input v-if="armor.current !== undefined" v-model.number="armor.current " type="number" min="0" max="4" />
+								</td>
+								<td>
+									<ul class="tag">
+										<li v-for="item in getSum(armor, 2)">{{ trans(item.name) }} : {{ item.quantity }}</li>
+									</ul>
+								</td>
+								<td>
+									<ul class="tag">
+										<li v-for="item in getSum(armor, 4)">{{ trans(item.name) }} : {{ item.quantity }}</li>
+									</ul>
+								</td>
+							</tr>
+						</table>
 
-    	var vm = new Vue({
-		  el: '#armors',
-		  data: {armors: data, language: 'fr'},
-		  methods: {	 
-		  	save: function() {
-		  		save = _.map(this.armors, function(i) {
-		  			return 	{
-		  				id: i.id,
-		  				current: i.current,
-		  				active: i.active
-		  			};
-		  		});
-		  		localStorage.setItem("save", JSON.stringify(save));
-		  	}, 	
-		  	reset: function() {
-		  		this.armors = initial;
-		  		localStorage.removeItem("save");
-		  	},
-		  	trans: function(k) {
-		  		if(materials[k] !== undefined) {
-		  			if(materials[k][this.language] !== undefined) {
-		  				return materials[k][this.language];
-		  			}
-		  			
-		  		}
-		  		return k;
-		  	},
-		    getSum: function (item, to) {
+					</div>
+					<div role="tabpanel" class="tab-pane" id="materialList">
+						<h2>Composant pour les armures sélectionnées</h2>
+						<h3>Composants pour le niveau 2</h3>
+						<ul>
+							<li v-for="material in getAllActiveMaterial(2)">{{ trans(material.name) }} : {{ material.quantity }} ({{ Object.values(material.armors).join(', ') }})</li>
+						</ul>
 
-		    	var from = item.current + 1;
+						<h3>Composants pour le niveau 4</h3>
+						<ul>
+							<li v-for="material in getAllActiveMaterial(4)">{{ trans(material.name) }} : {{ material.quantity }} ({{ Object.values(material.armors).join(', ') }})</li>
+						</ul>
+						<h2>Composant pour toutes les armures</h2>
+						<h3>Composants pour le niveau 2</h3>
+						<ul>
+							<li v-for="material in getAllMaterial(2)">{{ trans(material.name) }} : {{ material.quantity }} ({{ Object.values(material.armors).join(', ') }})</li>
+						</ul>
 
-		   		var compos = {};
-		   		if(from > to) {
-		   			return {};
-		   		}
-				for (var i = from; i <= to; i++) {
-					var current = item.upgrades[i];
+						<h3>Composants pour le niveau 4</h3>
+						<ul>
+							<li v-for="material in getAllMaterial(4)">{{ trans(material.name) }} : {{ material.quantity }} ({{ Object.values(material.armors).join(', ') }})</li>
+						</ul>						
+					</div>
+				</div>
+			</div>
+		</div>
 
-					for (var j = current.length - 1; j >= 0; j--) {
-						if(compos[current[j].name] == undefined) {
-							var mat = materials[current[j].name];
-							if(mat == undefined) {
-								console.log(current[j].name);
-								mat = {id:999};
-							}
-							compos[current[j].name] = {name: current[j].name, quantity: 0, id: mat.id};
-						}
+	</div>
+	<!-- /.container -->
+</body>
 
-						compos[current[j].name].quantity += current[j].quantity;
-
-					}
-
-				}
-
-				return _.orderBy(compos, 'id');
-		    },
-		    getAllMaterial: function(to) {
-		    	var items = this.armors;
-		    	var material = {};
-
-		    	for (var i = items.length - 1; i >= 0; i--) {
-		    		var item = items[i];
-		    		if(item.active) {
-		    			var compos = this.getSum(item, to);
-
-		    			for (var j = compos.length - 1; j >= 0; j--) {
-
-							if(material[compos[j].name] == undefined) {
-								console.log({name: compos[j].name, id: materials[compos[j].name].id});
-								material[compos[j].name] = {name: compos[j].name, quantity: 0, id: materials[compos[j].name].id};
-							}
-
-							material[compos[j].name].quantity += compos[j].quantity;	
-						}	    			
-
-		    		}
-		    	}
-
-		    	return _.orderBy(material, 'id');
-		    }
-		  }
-		})
-    </script>
-
-  </body>
 </html>
