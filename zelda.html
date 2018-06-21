@@ -99,8 +99,8 @@
 								<th><small>A améliorer</small></th>
 								<th>Nom</th>
 								<th>Niveau actuel</th>
-								<th>Niveau 2</th>
-								<th>Niveau 4</th>
+								<th class="hidden-xs">Niveau 2</th>
+								<th class="hidden-xs">Niveau 4</th>
 							</tr>
 							<tr v-for="armor in armors">
 								<td>
@@ -115,12 +115,12 @@
 								<td>
 									<input v-if="armor.current !== undefined" v-model.number="armor.current " type="number" min="0" max="4" />
 								</td>
-								<td>
+								<td class="hidden-xs">
 									<ul class="tag">
 										<li v-for="item in getSum(armor, 2)">{{ trans(item.name) }} : {{ item.quantity }}</li>
 									</ul>
 								</td>
-								<td>
+								<td class="hidden-xs">
 									<ul class="tag">
 										<li v-for="item in getSum(armor, 4)">{{ trans(item.name) }} : {{ item.quantity }}</li>
 									</ul>

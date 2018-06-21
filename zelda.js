@@ -957,7 +957,142 @@ const initial = [
 			3: [{ name: "lizalfos tail", quantity: 5 }, { name: "hearty bass", quantity: 5 }],
 			4: [{ name: "lizalfos tail", quantity: 10 }, { name: "opal", quantity: 15 }],
 		}
-	}
+	},
+	{
+		id: 82,
+		name: "Maillot Nintendo Switch",
+		current: 0,
+		active: false,
+		owned: false
+	},
+	{
+		id: 83,
+		name: "Masque de Korogu",
+		current: 0,
+		active: false,
+		owned: false
+	},
+	{
+		id: 84,
+		name: "Masque de Majora",
+		current: 0,
+		active: false,
+		owned: false
+	},
+	{
+		id: 85,
+		name: "Cagoule de Tingle",
+		current: 0,
+		active: false,
+		owned: false
+	},	
+	{
+		id: 86,
+		name: "Combinaison de Tingle",
+		current: 0,
+		active: false,
+		owned: false
+	},	
+	{
+		id: 87,
+		name: "Chausse de Tingle",
+		current: 0,
+		active: false,
+		owned: false
+	},	
+	{
+		id: 88,
+		name: "Couronne de Midona",
+		current: 0,
+		active: false,
+		owned: false
+	},
+	{
+		id: 89,
+		name: "Casque de Spectre",
+		current: 0,
+		active: false,
+		owned: false
+	},		
+	{
+		id: 90,
+		name: "Armure de Spectre",
+		current: 0,
+		active: false,
+		owned: false
+	},	
+	{
+		id: 91,
+		name: "Jambières de Spectre",
+		current: 0,
+		active: false,
+		owned: false
+	},	
+	// casques des prodiges (4)
+	{
+		id: 96,
+		name: "Tunique bleue de homard",
+		current: 0,
+		active: false,
+		owned: false
+	},	
+	{
+		id: 97,
+		name: "Capuche de Lavio",
+		current: 0,
+		active: false,
+		owned: false
+	},	
+	{
+		id: 98,
+		name: "Casque de Xanto",
+		current: 0,
+		active: false,
+		owned: false
+	},	
+	// uniforme de la garde (3)
+	{
+		id: 102,
+		name: "Masque spectral",
+		current: 0,
+		active: false,
+		owned: false
+	},	
+	{
+		id: 103,
+		name: "Armure spectral",
+		current: 0,
+		active: false,
+		owned: false
+	},	
+	{
+		id: 104,
+		name: "Grève spectrales",
+		current: 0,
+		active: false,
+		owned: false
+	},	
+	{
+		id: 105,
+		name: "Casque de récupérateur",
+		current: 0,
+		active: false,
+		owned: false
+	},	
+	{
+		id: 106,
+		name: "Gilet de récupérateur",
+		current: 0,
+		active: false,
+		owned: false
+	},	
+	{
+		id: 107,
+		name: "Grèves de récupérateur",
+		current: 0,
+		active: false,
+		owned: false
+	},
 ];
 
 const materials = {
