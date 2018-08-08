@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Warhammer : Feuille de personnage automatique</title>
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="../lib/bootstrap/dist/css/bootstrap.min.css">
+	<script src="../lib/jquery/dist/jquery.slim.min.js"></script>
+	<script src="../lib/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="../lib/lodash/dist/lodash.min.js"></script>
+	<script src="../lib/vue/dist/vue.min.js"></script>
+	<script type="text/javascript" src="warhammer.js"></script>
+
+	<style type="text/css">
+
+		body {
+			padding-top: 80px;
+		}
+
+		.img-source {
+			width: 100%;
+			height: 100%;
+		}
+
+		.form {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+		}
+
+		.page {
+			max-width: 1200px;
+			position: relative;
+		}
+
+		.positionInput {
+			position: absolute;
+			height: 1.5%;
+			border: 0;
+			background-color: #f5ff8f66;
+			text-align: center;
+			vertical-align: middle;			
+		}
+
+		.positionInput.readonly {
+			background-color: transparent;
+		}
+
+		.positionInput.right {
+			text-align: right;
+		}
+
+		.positionInput.big {
+			font-size: 150%;
+		}
+	</style>
+
+	<style type="text/css" media="print">
+
+	</style>
+
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				 aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="../">McRadane</a>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container" id="pages" v-if="loaded">
+			<button v-on:click="save()">save</button>
+			<button v-on:click="reset()">reset</button>
+			<div class="page">
+				<img src="resources/warhammer1.jpg" class="img-source" alt="">
+				<div class="form">
+					<input class="positionInput right" v-model="character.commons.name" type="text" data-left="21.5" data-top="8" data-width="35">
+					<select class="positionInput right" v-model="character.commons.race" v-bind:style="{ 
+						left: '21.5%', 
+						top: '9.8%',
+						width: '35%'}"> 
+						<option>Elfe</option>
+						<option>Halfling</option>
+						<option>Humain</option>
+						<option>Nain</option>
+					</select>	
+					<input class="positionInput right" v-model="character.commons.profession" type="text" data-left="21.5" data-top="11.6" data-width="35">
+					<input class="positionInput right" v-model="character.commons.oldProfession" type="text" data-left="21.5" data-top="13.4" data-width="35">
+	
+	
+					<input class="positionInput right" v-model="character.commons.age" type="number" data-left="21.1" data-top="19.8" data-width="10">
+					<input class="positionInput right" v-model="character.commons.eyes" data-left="21.1" data-top="21.6" data-width="10">
+					<input class="positionInput right" v-model="character.commons.hair" data-left="21.1" data-top="23.4" data-width="10">
+					<input class="positionInput right" v-model="character.commons.gods" data-left="15.1" data-top="25.2" data-width="16">
+	
+					<select class="positionInput" v-model="character.commons.gender" v-bind:style="{ 
+						left: '46.8%', 
+						top: '19.8%',
+						width: '10%'}"> 
+						<option>Masculin</option>
+						<option>Féminin</option>
+					</select>				
+					<input class="positionInput" v-model="character.commons.size" type="number" data-left="46.8" data-top="21.6" data-width="10" step="0.01">
+					<input class="positionInput" v-model="character.commons.weight" type="number" data-left="46.8" data-top="23.4" data-width="10" step="0.1">
+					<input class="positionInput" v-model="character.commons.bros" type="number" data-left="48.8" data-top="25.2" data-width="8" max="99">
+	
+					<input class="positionInput" v-model="character.commons.birthplace" data-left="21.5" data-top="27" data-width="35">
+					<input class="positionInput" v-model="character.commons.signes" data-left="21.5" data-top="28.8" data-width="35">
+					
+	
+					<span v-for="(skill, key, index) in character.profils" v-if="definitions.profils[key].type === 'primary'">
+						<input class="positionInput" v-model.number="skill.base" type="number" 
+							v-bind:style="{ left: getPositionLeft(definitions.positions.profilsPrimaryBase, index), 
+							top: definitions.positions.profilsPrimaryBase.top,
+							width: definitions.positions.profilsPrimaryBase.width}">
+						<input class="positionInput" v-model.number="skill.advanced" type="number" 
+							min="0" v-bind:step="getStepProfils(key)" 
+							v-bind:style="{ left: getPositionLeft(definitions.positions.profilsPrimaryAdvanced, index), 
+							top: definitions.positions.profilsPrimaryAdvanced.top,
+							width: definitions.positions.profilsPrimaryAdvanced.width}">		
+						<input class="positionInput" v-model.number="skill.advancedBuy" type="number" 
+							min="0" v-bind:step="getStepProfils(key)" 
+							v-bind:max="skill.advanced"
+							v-bind:style="{ left: getPositionLeft(definitions.positions.profilsPrimaryAdvancedBuy, index), 
+							top: definitions.positions.profilsPrimaryAdvancedBuy.top,
+							width: definitions.positions.profilsPrimaryAdvancedBuy.width}">	
+						<input class="positionInput readonly" type="text" readonly
+							v-bind:value="getStat(key)"
+							v-bind:style="{ left: getPositionLeft(definitions.positions.profilsPrimaryResult, index), 
+							top: definitions.positions.profilsPrimaryResult.top,
+							width: definitions.positions.profilsPrimaryResult.width,
+							height: '2%'}">							
+					</span>
+									
+					<span v-for="(skill, key, index) in character.profils" v-if="definitions.profils[key].type === 'secondary'">
+						<input class="positionInput" v-model.number="skill.base" type="number" 
+							v-bind:style="{ left: getPositionLeft(definitions.positions.profilsSecondaryBase, index - 8), 
+							top: definitions.positions.profilsSecondaryBase.top,
+							width: definitions.positions.profilsSecondaryBase.width}">			
+	
+						<input class="positionInput" v-model.number="skill.advanced" type="number" 
+							min="0" v-bind:step="getStepProfils(key)" 
+							v-bind:style="{ left: getPositionLeft(definitions.positions.profilsSecondaryAdvanced, index - 8), 
+							top: definitions.positions.profilsSecondaryAdvanced.top,
+							width: definitions.positions.profilsSecondaryAdvanced.width}">		
+						<input class="positionInput" v-model.number="skill.advancedBuy" type="number" 
+							min="0" v-bind:step="getStepProfils(key)" 
+							v-bind:max="skill.advanced"
+							v-bind:style="{ left: getPositionLeft(definitions.positions.profilsSecondaryAdvancedBuy, index - 8), 
+							top: definitions.positions.profilsSecondaryAdvancedBuy.top,
+							width: definitions.positions.profilsSecondaryAdvancedBuy.width}">	
+						<input class="positionInput readonly" type="text" readonly
+							v-bind:value="getStat(key)"
+							v-bind:style="{ left: getPositionLeft(definitions.positions.profilsSecondaryResult, index - 8), 
+							top: definitions.positions.profilsSecondaryResult.top,
+							width: definitions.positions.profilsSecondaryResult.width,
+							height: '2%'}">	
+					</span>
+	
+				</div>
+			</div>
+			<div class="page">
+					<img src="resources/warhammer2.jpg" class="img-source" alt="">
+					<div class="form">		
+						<span v-for="(skill, key, index) in character.skills" v-if="definitions.skills[key].type === 'base'">
+							<input class="positionInput" type="checkbox" v-model="skill.owned"
+							v-bind:style="{
+								top: getPositionTop(definitions.positions.skillsBaseCheckbox, index),
+								left: definitions.positions.skillsBaseCheckbox.leftOwn
+							}">
+	
+							<input class="positionInput" type="checkbox" type="checkbox" v-model="skill.b10" v-bind:disabled="!skill.owned"
+							v-bind:style="{
+								top: getPositionTop(definitions.positions.skillsBaseCheckbox, index),
+								left: definitions.positions.skillsBaseCheckbox.leftB10
+							}">
+							<input class="positionInput" type="checkbox" v-model="skill.b20" v-bind:disabled="!skill.b10"
+							v-bind:style="{
+								top: getPositionTop(definitions.positions.skillsBaseCheckbox, index),
+								left: definitions.positions.skillsBaseCheckbox.leftB20
+							}">
+							<input class="positionInput" v-model.number="skill.bonus" min="0"
+							v-bind:style="{
+								top: getPositionTop(definitions.positions.skillsBaseBonus, index),
+								left: definitions.positions.skillsBaseBonus.left,
+								width: definitions.positions.skillsBaseBonus.width
+							}">
+							<input class="positionInput readonly"  type="text" readonly
+							v-bind:value="getSkill(key)"
+							v-bind:style="{
+								top: getPositionTop(definitions.positions.skillsBaseResult, index),
+								left: definitions.positions.skillsBaseResult.left,
+								width: definitions.positions.skillsBaseResult.width
+							}">							
+						</span>	
+						
+						<span v-for="(skill, key, index) in character.advancedSkills">
+	
+								<select class="positionInput" v-model="skill.skill" v-on:change="addSkill(key)" v-bind:style="{
+									top: getPositionTop(definitions.positions.skillsAdvancedName, index),
+									left: definitions.positions.skillsAdvancedName.left,
+									width: definitions.positions.skillsAdvancedName.width
+								}"> 
+									<option v-for="option in definitions.advancedSkillsSelector" v-bind:value="option.value">
+										{{ option.text }}
+									</option>
+								</select>
+	
+								<input class="positionInput"  type="text" v-model="skill.skillOption"
+									v-bind:style="{
+										top: getPositionTop(definitions.positions.skillsAdvancedOption, index),
+										left: definitions.positions.skillsAdvancedOption.left,
+										width: definitions.positions.skillsAdvancedOption.width,
+										display: skill.multi ? 'inherit' : 'none'
+								}">							
+	
+								<input class="positionInput readonly"  type="text" readonly
+									v-bind:value="ucfirst(skill.carac)"
+									v-bind:style="{
+										top: getPositionTop(definitions.positions.skillsAdvancedCarac, index),
+										left: definitions.positions.skillsAdvancedCarac.left,
+										width: definitions.positions.skillsAdvancedCarac.width,
+										display: skill.nocarac ? 'none' : 'inherit'
+								}">
+								<select class="positionInput" v-model="skill.carac" v-bind:style="{
+									top: getPositionTop(definitions.positions.skillsAdvancedCarac, index),
+									left: definitions.positions.skillsAdvancedCarac.left,
+									width: definitions.positions.skillsAdvancedCarac.widthSelect,
+									display: skill.nocarac ? 'inherit' : 'none'
+								}"> 
+									<option v-for="option in definitions.caracSelector" v-bind:value="option.value">
+										{{ option.text }}
+									</option>
+								</select>							
+		
+								<input class="positionInput readonly" type="checkbox" v-bind:checked="skill.carac !== ''" v-bind:style="{
+									top: getPositionTop(definitions.positions.skillsAdvancedCheckbox, index),
+									left: definitions.positions.skillsAdvancedCheckbox.leftOwn
+								}" readonly="true">
+		
+								<input class="positionInput" type="checkbox" type="checkbox" v-model="skill.b10" v-bind:disabled="skill.carac === ''"
+								v-bind:style="{
+									top: getPositionTop(definitions.positions.skillsAdvancedCheckbox, index),
+									left: definitions.positions.skillsAdvancedCheckbox.leftB10
+								}">
+								<input class="positionInput" type="checkbox" v-model="skill.b20" v-bind:disabled="!skill.b10"
+								v-bind:style="{
+									top: getPositionTop(definitions.positions.skillsAdvancedCheckbox, index),
+									left: definitions.positions.skillsAdvancedCheckbox.leftB20
+								}">
+								<input class="positionInput" v-model.number="skill.bonus" min="0"
+								v-bind:style="{
+									top: getPositionTop(definitions.positions.skillsAdvancedBonus, index),
+									left: definitions.positions.skillsAdvancedBonus.left,
+									width: definitions.positions.skillsAdvancedBonus.width
+								}">
+								<input class="positionInput readonly"  type="text" readonly
+								v-bind:value="getSkill(skill.skill, skill)"
+								v-bind:style="{
+									top: getPositionTop(definitions.positions.skillsAdvancedResult, index),
+									left: definitions.positions.skillsAdvancedResult.left,
+									width: definitions.positions.skillsAdvancedResult.width
+								}">							
+							</span>	
+							
+							<input class="positionInput big" v-model="character.commons.moneyCo" data-left="67.6" data-top="81.2" data-width="7" data-height="2" min="0" type="number">
+							<input class="positionInput big" v-model="character.commons.moneyPa" data-left="75.7" data-top="81.2" data-width="7" data-height="2" min="0" type="number">
+							<input class="positionInput big" v-model="character.commons.moneySc" data-left="83.7" data-top="81.2" data-width="7" data-height="2" min="0" type="number">
+	
+							<input class="positionInput big" v-model="character.commons.xpActual" data-left="75.7" data-top="85" data-width="8" data-height="2.7" min="0" type="number">
+							<input class="positionInput big" v-model="character.commons.xpTotal" data-left="85.4" data-top="85" data-width="8" data-height="2.7" min="0" type="number">
+					
+					</div>
+				</div>	
+	</div>
+	<!-- /.container -->
+</body>
+
+</html>
