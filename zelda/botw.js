@@ -1,4 +1,4 @@
-let save = localStorage.getItem("save");
+let save = localStorage.getItem("zelda_botw");
 let data = {};
 
 const initial = [
@@ -1219,11 +1219,11 @@ $(function () {
 						owned: i.owned
 					};
 				});
-				localStorage.setItem("save", JSON.stringify(save));
+				localStorage.setItem("zelda_botw", JSON.stringify(save));
 			},
 			reset: function () {
 				this.armors = initial;
-				localStorage.removeItem("save");
+				localStorage.removeItem("zelda_botw");
 			},
 			trans: function (k) {
 				if (materials[k] !== undefined) {

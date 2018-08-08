@@ -1,4 +1,4 @@
-let save = localStorage.getItem("save");
+let save = localStorage.getItem("warhammer");
 let data = { loaded: false };
 
 const ucfirst = function(str) {
@@ -272,13 +272,13 @@ $(function () {
 		methods: {
 
 			save: function () {
-				localStorage.setItem("save", JSON.stringify({
+				localStorage.setItem("warhammer", JSON.stringify({
 					character: this.character
 				}));
 			},
 			reset: function () {
 				this.character = initial.character;
-				localStorage.removeItem("save");
+				localStorage.removeItem("warhammer");
 			},			
 			getStat: function(stateName) {
 				var state = this.character.profils[stateName];
